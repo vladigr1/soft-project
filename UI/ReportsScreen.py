@@ -83,7 +83,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.cur_report_display_table.setItem(1, 1, item)
         self.verticalLayout_2.addWidget(self.cur_report_display_table)
-        self.create_new_data_model_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.create_new_data_model_btn = QtWidgets.QPushButton(self.centralwidget, clicked = lambda: self.open_createDataModelScreen())
         self.create_new_data_model_btn.setObjectName("create_new_data_model_btn")
         self.verticalLayout_2.addWidget(self.create_new_data_model_btn)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -93,6 +93,10 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        # user custom define parameters
+        self.CreateDataModelScreen_window = None
+        self.CreateDataModelScreen_ui = None
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -122,6 +126,15 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "+"))
         self.cur_report_display_table.setSortingEnabled(__sortingEnabled)
         self.create_new_data_model_btn.setText(_translate("MainWindow", "create new data model"))
+
+    def open_createDataModelScreen(self):
+        import CreateDataModelScreen
+        self.CreateDataModelScreen_window = QtWidgets.QMainWindow()
+        self.CreateDataModelScreen_ui = CreateDataModelScreen.Ui_MainWindow()
+        self.CreateDataModelScreen_ui.setupUi(self.CreateDataModelScreen_window)
+        self.CreateDataModelScreen_window.show()
+            
+
 
 
 if __name__ == "__main__":
