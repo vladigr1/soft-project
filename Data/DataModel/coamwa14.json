@@ -1,0 +1,18 @@
+{
+    "_basic_parameeters": [
+        {
+            "_title": "amount of sleep",
+            "_unit": "double"
+        },
+        {
+            "_title": "water consumption",
+            "_unit": "double"
+        }
+    ],
+    "_derivied_parameter": {
+        "_title": "cognative load",
+        "_unit": "interval"
+    },
+    "_id": "coamwa14",
+    "_num_days": 14
+}
