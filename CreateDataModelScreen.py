@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from DataModel import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -96,9 +97,9 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.choose_parmeter_table.setItem(3, 1, item)
         self.verticalLayout_2.addWidget(self.choose_parmeter_table)
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout_2.addWidget(self.pushButton)
+        self.save_model_btn = QtWidgets.QPushButton(self.centralwidget, clicked = self.save_mode_to_json)
+        self.save_model_btn.setObjectName("save_model_btn")
+        self.verticalLayout_2.addWidget(self.save_model_btn)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_4 = QtWidgets.QLabel(self.centralwidget)
@@ -109,10 +110,10 @@ class Ui_MainWindow(object):
         self.label_4.setSizePolicy(sizePolicy)
         self.label_4.setObjectName("label_4")
         self.horizontalLayout_3.addWidget(self.label_4)
-        self.choose_modelToForm_comboBox = QtWidgets.QComboBox(self.centralwidget)
-        self.choose_modelToForm_comboBox.setObjectName("choose_modelToForm_comboBox")
-        self.choose_modelToForm_comboBox.addItem("")
-        self.horizontalLayout_3.addWidget(self.choose_modelToForm_comboBox)
+        self.choose_model_to_form_comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.choose_model_to_form_comboBox.setObjectName("choose_model_to_form_comboBox")
+        self.choose_model_to_form_comboBox.addItem("")
+        self.horizontalLayout_3.addWidget(self.choose_model_to_form_comboBox)
         self.generate_form_btn = QtWidgets.QPushButton(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -167,10 +168,16 @@ class Ui_MainWindow(object):
         item = self.choose_parmeter_table.item(3, 1)
         item.setText(_translate("MainWindow", "basic"))
         self.choose_parmeter_table.setSortingEnabled(__sortingEnabled)
-        self.pushButton.setText(_translate("MainWindow", "generate model"))
+        self.save_model_btn.setText(_translate("MainWindow", "save model"))
         self.label_4.setText(_translate("MainWindow", "model name"))
-        self.choose_modelToForm_comboBox.setItemText(0, _translate("MainWindow", "sleep analysis 1"))
+        self.choose_model_to_form_comboBox.setItemText(0, _translate("MainWindow", "sleep analysis 1"))
         self.generate_form_btn.setText(_translate("MainWindow", "generate form"))
+
+# devloper define stuff
+    def save_mode_to_json(self):
+        stub_dm = DataModel(parms[0], [parms[1], parms[2]],14)
+        # TODO: implment taking from UI the dm
+        stub_dm.save_to_json()
 
 
 if __name__ == "__main__":

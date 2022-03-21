@@ -182,9 +182,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="save_model_btn">
       <property name="text">
-       <string>generate model</string>
+       <string>save model</string>
       </property>
      </widget>
     </item>
@@ -207,7 +207,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="choose_modelToForm_comboBox">
+       <widget class="QComboBox" name="choose_model_to_form_comboBox">
         <item>
          <property name="text">
           <string>sleep analysis 1</string>
