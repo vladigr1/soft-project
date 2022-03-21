@@ -7,7 +7,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from DataModel import *
+from data_model import DataModel
+from parameter import parms
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

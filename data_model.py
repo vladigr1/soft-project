@@ -1,8 +1,6 @@
-#%%
 import json
 from types import SimpleNamespace
-from Parameter import *
-import random
+from parameter import Parameter
 class DataModel:
     def __init__(self, derivied_parameter : Parameter, basic_parameeters : list, num_days : int) -> None:
         self._derivied_parameter = derivied_parameter

@@ -10,6 +10,7 @@ class Parameter:
         return self._title
 # TODO: implement filter
 
+
 parms = [
     Parameter('cognative load', 'interval'),
     Parameter('amount of sleep', 'double'),
