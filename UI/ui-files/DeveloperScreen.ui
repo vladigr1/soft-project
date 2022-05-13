@@ -32,7 +32,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Developer screen:</string>
+       <string>Researcher screen:</string>
       </property>
      </widget>
     </item>
@@ -103,60 +103,30 @@
       </row>
       <column>
        <property name="text">
-        <string>unit</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
         <string>filter</string>
        </property>
       </column>
       <item row="0" column="0">
-       <property name="text">
-        <string>interval</string>
-       </property>
-      </item>
-      <item row="0" column="1">
        <property name="text">
         <string>sum of 3 days</string>
        </property>
       </item>
       <item row="1" column="0">
        <property name="text">
-        <string>double</string>
-       </property>
-      </item>
-      <item row="1" column="1">
-       <property name="text">
         <string>min. of 4 days</string>
        </property>
       </item>
       <item row="2" column="0">
-       <property name="text">
-        <string>double</string>
-       </property>
-      </item>
-      <item row="2" column="1">
        <property name="text">
         <string>avg. of 2 days</string>
        </property>
       </item>
       <item row="3" column="0">
        <property name="text">
-        <string>integer</string>
-       </property>
-      </item>
-      <item row="3" column="1">
-       <property name="text">
         <string>avg. of 3 days</string>
        </property>
       </item>
       <item row="4" column="0">
-       <property name="text">
-        <string>integer</string>
-       </property>
-      </item>
-      <item row="4" column="1">
        <property name="text">
         <string>no filter</string>
        </property>
@@ -201,6 +171,51 @@
        <widget class="QPushButton" name="show_full_report_btn">
         <property name="text">
          <string>show full report</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="label_4">
+        <property name="maximumSize">
+         <size>
+          <width>85</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>choose model:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>180</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <item>
+         <property name="text">
+          <string>sleep analysis</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>show evaluate graph</string>
         </property>
        </widget>
       </item>

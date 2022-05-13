@@ -37,75 +37,6 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="import_form_btn">
-        <property name="text">
-         <string>import form</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>choose report:</string>
-        </property>
-        <property name="margin">
-         <number>5</number>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="all_report_comboBox">
-        <item>
-         <property name="text">
-          <string>sleep analysis 1</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="show_report_btn">
-        <property name="text">
-         <string>show report</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
      <widget class="QTableWidget" name="cur_report_display_table">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -121,6 +52,31 @@
       </attribute>
       <row>
        <property name="text">
+        <string>beta1,0</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>beta2,0</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>beta3,0</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>beta4,0</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>beta5,0</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
         <string>amount of sleep</string>
        </property>
       </row>
@@ -134,33 +90,81 @@
         <string>physical activity</string>
        </property>
       </row>
+      <row>
+       <property name="text">
+        <string>t-value</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>critical  t-value</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>accuracy</string>
+       </property>
+      </row>
       <column>
        <property name="text">
-        <string>boundaries / change of odds by increaase parameter</string>
+        <string>value</string>
        </property>
       </column>
       <item row="0" column="0">
        <property name="text">
-        <string>(5,6,7,8)</string>
+        <string>2.7</string>
        </property>
       </item>
       <item row="1" column="0">
        <property name="text">
-        <string>0.4</string>
+        <string>2.9</string>
        </property>
       </item>
       <item row="2" column="0">
        <property name="text">
-        <string>0.6</string>
+        <string>3.4</string>
        </property>
       </item>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="create_new_data_model_btn">
-      <property name="text">
-       <string>create new data model</string>
-      </property>
+      <item row="3" column="0">
+       <property name="text">
+        <string>4.2</string>
+       </property>
+      </item>
+      <item row="4" column="0">
+       <property name="text">
+        <string>4.4</string>
+       </property>
+      </item>
+      <item row="5" column="0">
+       <property name="text">
+        <string>(5,6,7,8)</string>
+       </property>
+      </item>
+      <item row="6" column="0">
+       <property name="text">
+        <string>-0.2</string>
+       </property>
+      </item>
+      <item row="7" column="0">
+       <property name="text">
+        <string>-0.4</string>
+       </property>
+      </item>
+      <item row="8" column="0">
+       <property name="text">
+        <string>1.12</string>
+       </property>
+      </item>
+      <item row="9" column="0">
+       <property name="text">
+        <string>1.74</string>
+       </property>
+      </item>
+      <item row="10" column="0">
+       <property name="text">
+        <string>12</string>
+       </property>
+      </item>
      </widget>
     </item>
    </layout>
