@@ -1,6 +1,6 @@
 import pytest
 from data_model import DataModel
-from parameter import parms
+from param import parms
 import os
 
 def setup_module(module):
