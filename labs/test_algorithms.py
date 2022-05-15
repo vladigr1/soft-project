@@ -1,5 +1,4 @@
 import pytest
-import derived
 import pandas as pd
 import numpy as np
 
@@ -8,7 +7,7 @@ def test_assert():
     assert(np.all(res))
 
 def test_categories():
-    from derived import categories_derived
+    from algorithms import categories_derived
     data = pd.Series([1,2,3,4,5], dtype=np.int64)
     result = categories_derived(data)
     expected = pd.Series([1,2,3,4,5])
