@@ -40,15 +40,18 @@ def load_data(csv_path):
     return data_diam
 
 
-def ttest(mod_fit, data, sderived, lbasics):
-    derived_values = data[sderived].to_numpy()
+def pred_vec(mod_fit, data, sderived, lbasics):
     basic_values = data[lbasics]
     pred_row = np.array(mod_fit.predict(basic_values).round(2))
-
     max_val = pred_row[:].max(1).reshape((-1,1)) # max likelhood sections
     (pred_i, pred_j) = np.where(pred_row == max_val) # get list indexes
     pred = list(map(lambda x: pred_j[x], set(pred_i)))
+    return pred
 
+
+def ttest(mod_fit, data, sderived, lbasics):
+    derived_values = data[sderived].to_numpy()
+    pred = pred_vec(mod_fit, data, sderived, lbasics)
     # Calculate the T-test for the means of two independent samples of scores.
     (tvalue, pvalue) = ttest_ind(derived_values, pred)
 
