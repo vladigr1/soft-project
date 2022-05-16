@@ -41,8 +41,9 @@ def load_data(csv_path):
 
 
 def pred_vec(mod_fit, data, sderived, lbasics):
+    # pred base of mean
     basic_values = data[lbasics]
-    pred_row = np.array(mod_fit.predict(basic_values).round(2))
+    pred_row = np.array(mod_fit.predict(basic_values))
     max_val = pred_row[:].max(1).reshape((-1,1)) # max likelhood sections
     (pred_i, pred_j) = np.where(pred_row == max_val) # get list indexes
     pred = list(map(lambda x: pred_j[x], set(pred_i)))
@@ -96,7 +97,7 @@ def stepwise_regression(data, sderived, lbasics, in_threshold, out_threshold):
             temp_basics.remove(param)
             fit_model = generateOLR(data, sderived, temp_basics)
             pvalue = ttest(fit_model, data, sderived, temp_basics)
-            if pvalue > out_threshold:
+            if pvalue < out_threshold:
                 cur_model = fit_model
                 param_in_model.remove(param)
                 param_not_in_model.append(param)
