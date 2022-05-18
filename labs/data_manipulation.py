@@ -1,7 +1,7 @@
 import numpy as np
 
 def avg_filter(filter_size):
-    return lambda ldata : np.sum(ldata)//filter_size
+    return lambda ldata : np.sum(ldata)/filter_size
 
 def filter(data,func, filter_size):
     if len(data) % 3 != 0:

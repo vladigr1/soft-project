@@ -8,6 +8,8 @@ from copy import copy
 from statsmodels.miscmodels.ordinal_model import OrderedModel
 np.seterr(divide='ignore', invalid='ignore')
 
+from data_manipulation import filter
+
 
 
 def categories_derived(pd_derivied):
@@ -33,11 +35,25 @@ def categories_derived(pd_derivied):
     return pd_derivied.astype(cat_type)
 
 
-def load_data(csv_path):
+def load_data(csv_path, sderived):
     data_diam = pd.read_csv(csv_path, dtype =  np.double)
-    cat_derivied = categories_derived(data_diam['amount of sleep'])
-    data_diam['amount of sleep'] = cat_derivied
+    cat_derivied = categories_derived(data_diam[sderived])
+    data_diam[sderived] = cat_derivied
     return data_diam
+
+def load_data_with_fiters(csv_path, sderived, lfilters, filter_size):
+    data_diam = pd.read_csv(csv_path, dtype =  np.double)
+    lparams = list(data_diam.columns.values)
+    size_sample = data_diam.shape[0]
+
+    data = np.empty((size_sample//filter_size, len(lparams)), dtype=np.double)
+    for i, param in enumerate(lparams):
+        data[:,i] = filter(data_diam[param].values, lfilters[i],filter_size)
+    
+    df = pd.DataFrame(data, columns=lparams)
+    cat_derivied = categories_derived(df[sderived])
+    df[sderived] = cat_derivied
+    return df
 
 
 def pred_vec(mod_fit, data, sderived, lbasics):
