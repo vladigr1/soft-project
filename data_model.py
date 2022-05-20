@@ -1,12 +1,15 @@
 import json
 from types import SimpleNamespace
 from param import Parameter
+from os import listdir
+from os.path import isfile, join, basename
+
 class DataModel:
-    def __init__(self, derivied_parameter : Parameter, basic_parameeters : list, num_days : int) -> None:
+    def __init__(self,name : str, derivied_parameter : Parameter, basic_parameeters : list, num_days : int) -> None:
         self._derivied_parameter = derivied_parameter
         self._basic_parameeters = basic_parameeters
         self._num_days = num_days
-        self.set_id()
+        self._id  = name
         
     def set_id(self):
         self._id  = self._derivied_parameter.title()[0:2]
@@ -29,6 +32,9 @@ class DataModel:
             for bp in sn_res._basic_parameeters:
                 basic_parameeters.append(Parameter(bp._title, bp._unit))
 
-            res = DataModel(derivied_parameter, basic_parameeters, sn_res._num_days)
+            res = DataModel(basename(path), derivied_parameter, basic_parameeters, sn_res._num_days)
             return res
+
+    def lDataModels_names(path = "./Data/DataModel/"):
+        return [f for f in listdir(path) if isfile(join(path, f))]
 

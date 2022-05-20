@@ -7,8 +7,18 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMainWindow,QInputDialog, QLineEdit, QDialog, QLabel, QComboBox, QPushButton
 
-class Ui_MainWindow(object):
+import sys
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+
+
+      
+class Ui_MainWindow(QMainWindow):
+        
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(477, 476)
@@ -62,16 +72,8 @@ class Ui_MainWindow(object):
         self.cur_filter_setting_table.setVerticalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.cur_filter_setting_table.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_filter_setting_table.setItem(0, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_filter_setting_table.setItem(1, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_filter_setting_table.setItem(2, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_filter_setting_table.setItem(3, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_filter_setting_table.setItem(4, 0, item)
+        
+      
         self.verticalLayout_2.addWidget(self.cur_filter_setting_table)
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
@@ -110,7 +112,7 @@ class Ui_MainWindow(object):
         self.choose_model_comboBox.setObjectName("choose_model_comboBox")
         self.choose_model_comboBox.addItem("")
         self.horizontalLayout_4.addWidget(self.choose_model_comboBox)
-        self.show_ev_graph_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.show_ev_graph_btn = QtWidgets.QPushButton(self.centralwidget, clicked = self.showEnvGraph)
         self.show_ev_graph_btn.setObjectName("show_ev_graph_btn")
         self.horizontalLayout_4.addWidget(self.show_ev_graph_btn)
         self.verticalLayout_2.addLayout(self.horizontalLayout_4)
@@ -128,6 +130,8 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Researcher screen:"))
         self.label_2.setText(_translate("MainWindow", "algorithm"))
         self.choose_alg_comboBox.setItemText(0, _translate("MainWindow", "least squares + spearman correlation"))
+        
+        
         item = self.cur_filter_setting_table.verticalHeaderItem(0)
         item.setText(_translate("MainWindow", "cognitive load"))
         item = self.cur_filter_setting_table.verticalHeaderItem(1)
@@ -142,16 +146,27 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "filter"))
         __sortingEnabled = self.cur_filter_setting_table.isSortingEnabled()
         self.cur_filter_setting_table.setSortingEnabled(False)
-        item = self.cur_filter_setting_table.item(0, 0)
-        item.setText(_translate("MainWindow", "sum of 3 days"))
-        item = self.cur_filter_setting_table.item(1, 0)
-        item.setText(_translate("MainWindow", "min. of 4 days"))
-        item = self.cur_filter_setting_table.item(2, 0)
-        item.setText(_translate("MainWindow", "avg. of 2 days"))
-        item = self.cur_filter_setting_table.item(3, 0)
-        item.setText(_translate("MainWindow", "avg. of 3 days"))
-        item = self.cur_filter_setting_table.item(4, 0)
-        item.setText(_translate("MainWindow", "no filter"))
+        
+        
+        
+        cb = QComboBox()
+        cb.addItems(["Option 1","Option 2","Option 3"])
+        self.cur_filter_setting_table.setCellWidget(0, 0, cb)
+        cb = QComboBox()
+        cb.addItems(["Option A","Option B","Option C"])
+        self.cur_filter_setting_table.setCellWidget(1, 0, cb)
+        cb = QComboBox()
+        cb.addItems(["Option E","Option F","Option G"])
+        self.cur_filter_setting_table.setCellWidget(2, 0, cb)
+        cb = QComboBox()
+        cb.addItems(["Option H","Option I","Option J"])
+        self.cur_filter_setting_table.setCellWidget(3, 0, cb)
+        cb = QComboBox()
+        cb.addItems(["Option K","Option L","Option M"])
+        self.cur_filter_setting_table.setCellWidget(4, 0, cb)
+
+        
+
         self.cur_filter_setting_table.setSortingEnabled(__sortingEnabled)
         self.pushButton.setText(_translate("MainWindow", "update system configuration"))
         self.label_3.setText(_translate("MainWindow", "choose report:"))
@@ -160,6 +175,40 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "choose model:"))
         self.choose_model_comboBox.setItemText(0, _translate("MainWindow", "sleep analysis"))
         self.show_ev_graph_btn.setText(_translate("MainWindow", "show evaluate graph"))
+        
+        
+    def showEnvGraph(self):
+        pop = Popup(self)
+        pop.show()
+        
+
+class Popup(QDialog):
+   def __init__(self, parent):
+       super().__init__(parent)
+       self.resize(600,300)
+       self.chart = Graph(self)
+       self.chart.resize(550, 250)
+       
+       
+       
+class Graph(FigureCanvas):
+    def __init__(self, parent):
+        fig, self.ax = plt.subplots(figsize=(5, 4), dpi=200)
+        super().__init__(fig)
+        self.setParent(parent)
+
+        """ 
+        Matplotlib Script
+        """
+        t = np.arange(0.0, 2.0, 0.01)
+        s = 1 + np.sin(2 * np.pi * t)
+        
+        self.ax.plot(t, s)
+
+        self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+               title='About as simple as it gets, folks')
+        self.ax.grid()
+  
 
 
 if __name__ == "__main__":

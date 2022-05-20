@@ -11,10 +11,10 @@ class Parameter:
 # TODO: implement filter
 
 
-parms = [
-    Parameter('cognative load', 'interval'),
-    Parameter('amount of sleep', 'double'),
-    Parameter('water consumption', 'double'),
-    Parameter('physical activity', 'integer'),
-    Parameter('time socilizing', 'integer'),
-]
+parms = {
+    'cognitive load': Parameter('cognative load', 'interval'),
+    'amount of sleep': Parameter('amount of sleep', 'double'),
+    'water consumption': Parameter('water consumption', 'double'),
+    'physical activity': Parameter('physical activity', 'integer'),
+    'time socilizing': Parameter('time socilizing', 'integer'),
+}
