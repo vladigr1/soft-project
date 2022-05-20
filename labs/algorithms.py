@@ -88,6 +88,20 @@ def stepwise_regression(data, sderived, lbasics, in_threshold, out_threshold):
     param_in_model = []
     param_not_in_model = copy(lbasics)
 
+    min = 1
+    for param in param_not_in_model:
+            temp_basics = param_in_model + [param]
+            fit_model = generateOLR(data, sderived, temp_basics)
+            pvalue = ttest(fit_model, data, sderived, temp_basics)
+            if pvalue < min:
+                cur_model = fit_model
+                cur_pvalue = pvalue
+                parm_min = param
+
+    param_in_model.append(parm_min)
+    param_not_in_model.remove(parm_min)
+
+    counter = 2*(len(lbasics) + 1)
     while True:
         bchange = False
         # add
@@ -98,16 +112,22 @@ def stepwise_regression(data, sderived, lbasics, in_threshold, out_threshold):
             pvalue = ttest(fit_model, data, sderived, temp_basics)
             if pvalue < in_threshold:
                 cur_model = fit_model
+                cur_pvalue = pvalue
                 param_in_model.append(param)
                 param_not_in_model.remove(param)
-                print(f'add-params: {param_in_model}, pvalue: {pvalue}')
+                #print(f'add-params: {param}, pvalue: {pvalue}')
                 bchange = True
+                counter = counter - 1
                 break
-
+        
+        if (counter == 0):
+             break
         if bchange == True:
             continue
 
         # remove
+        if len(param_in_model) == 1:
+            break
         for param in param_in_model:
             temp_basics = copy(param_in_model)
             temp_basics.remove(param)
@@ -115,14 +135,18 @@ def stepwise_regression(data, sderived, lbasics, in_threshold, out_threshold):
             pvalue = ttest(fit_model, data, sderived, temp_basics)
             if pvalue < out_threshold:
                 cur_model = fit_model
+                cur_pvalue = pvalue
                 param_in_model.remove(param)
                 param_not_in_model.append(param)
-                print(f'remove-params: {param_in_model}, pvalue: {pvalue}')
+                #print(f'remove-params: {param}, pvalue: {pvalue}')
                 bchange = True
+                counter = counter - 1
                 break
-
+        
+        if (counter == 0):
+             break
         if bchange == False:
             break
     if not param_in_model:
         raise Exception("Stepwise_reggresion couldn't pick a parameter.")
-    return (cur_model, param_in_model)
+    return (cur_model, param_in_model, cur_pvalue)
