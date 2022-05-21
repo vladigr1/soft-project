@@ -7,11 +7,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow,QInputDialog, QLineEdit, QDialog, QLabel, QComboBox, QPushButton
+from PyQt5.QtWidgets import QMainWindow,QInputDialog, QLineEdit, QDialog, QLabel, QComboBox, QPushButton, QTableWidgetItem
 
-class Ui_MainWindow(object):
+class Ui_FullReportWindow(QMainWindow):
     
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow, listHeaders, listValues):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(477, 476)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -39,146 +39,59 @@ class Ui_MainWindow(object):
         self.cur_report_display_table.setLineWidth(1)
         self.cur_report_display_table.setObjectName("cur_report_display_table")
         self.cur_report_display_table.setColumnCount(1)
-        self.cur_report_display_table.setRowCount(11)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(3, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(6, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(7, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(8, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(9, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setVerticalHeaderItem(10, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(0, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(1, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(2, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(3, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(4, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(5, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(6, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(7, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(8, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(9, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.cur_report_display_table.setItem(10, 0, item)
+        self.cur_report_display_table.setHorizontalHeaderLabels(["Values:"])
+
+       
+        length = len(listHeaders)
+        for i in range(length): 
+            rowPosition = self.cur_report_display_table.rowCount()
+            self.cur_report_display_table.insertRow(rowPosition)
+    
+            item = QtWidgets.QTableWidgetItem()
+            item.setText(listHeaders[i]) 
+            self.cur_report_display_table.setVerticalHeaderItem(rowPosition, item)
+            
+            label = QLabel(listValues[i])
+            self.cur_report_display_table.setCellWidget(rowPosition, 0, label)
+        
+        
+        
+              
         self.cur_report_display_table.horizontalHeader().setDefaultSectionSize(300)
         self.verticalLayout_2.addWidget(self.cur_report_display_table)
      
-        self.addRowBtn = QtWidgets.QPushButton(self.centralwidget, clicked = self.addRowToTable)
-        self.addRowBtn.setText("add Row")
-        self.verticalLayout_2.addWidget(self.addRowBtn)
      
         
      
-        MainWindow.setCentralWidget(self.centralwidget)
+        #MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        #MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Full Report Window"))
         self.label.setText(_translate("MainWindow", "Report screen:"))
-        item = self.cur_report_display_table.verticalHeaderItem(0)
-        item.setText(_translate("MainWindow", "beta1,0"))
-        item = self.cur_report_display_table.verticalHeaderItem(1)
-        item.setText(_translate("MainWindow", "beta2,0"))
-        item = self.cur_report_display_table.verticalHeaderItem(2)
-        item.setText(_translate("MainWindow", "beta3,0"))
-        item = self.cur_report_display_table.verticalHeaderItem(3)
-        item.setText(_translate("MainWindow", "beta4,0"))
-        item = self.cur_report_display_table.verticalHeaderItem(4)
-        item.setText(_translate("MainWindow", "beta5,0"))
-        item = self.cur_report_display_table.verticalHeaderItem(5)
-        item.setText(_translate("MainWindow", "amount of sleep"))
-        item = self.cur_report_display_table.verticalHeaderItem(6)
-        item.setText(_translate("MainWindow", "cognitive load"))
-        item = self.cur_report_display_table.verticalHeaderItem(7)
-        item.setText(_translate("MainWindow", "physical activity"))
-        item = self.cur_report_display_table.verticalHeaderItem(8)
-        item.setText(_translate("MainWindow", "t-value"))
-        item = self.cur_report_display_table.verticalHeaderItem(9)
-        item.setText(_translate("MainWindow", "critical  t-value"))
-        item = self.cur_report_display_table.verticalHeaderItem(10)
-        item.setText(_translate("MainWindow", "accuracy"))
-        item = self.cur_report_display_table.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "value"))
-        __sortingEnabled = self.cur_report_display_table.isSortingEnabled()
-        self.cur_report_display_table.setSortingEnabled(False)
-        item = self.cur_report_display_table.item(0, 0)
-        item.setText(_translate("MainWindow", "2.7"))
-        item = self.cur_report_display_table.item(1, 0)
-        item.setText(_translate("MainWindow", "2.9"))
-        item = self.cur_report_display_table.item(2, 0)
-        item.setText(_translate("MainWindow", "3.4"))
-        item = self.cur_report_display_table.item(3, 0)
-        item.setText(_translate("MainWindow", "4.2"))
-        item = self.cur_report_display_table.item(4, 0)
-        item.setText(_translate("MainWindow", "4.4"))
-        item = self.cur_report_display_table.item(5, 0)
-        item.setText(_translate("MainWindow", "(5,6,7,8)"))
-        item = self.cur_report_display_table.item(6, 0)
-        item.setText(_translate("MainWindow", "-0.2"))
-        item = self.cur_report_display_table.item(7, 0)
-        item.setText(_translate("MainWindow", "-0.4"))
-        item = self.cur_report_display_table.item(8, 0)
-        item.setText(_translate("MainWindow", "1.12"))
-        item = self.cur_report_display_table.item(9, 0)
-        item.setText(_translate("MainWindow", "1.74"))
-        item = self.cur_report_display_table.item(10, 0)
-        item.setText(_translate("MainWindow", "12"))
-        self.cur_report_display_table.setSortingEnabled(__sortingEnabled)
+        
+       
+        
+    
         
         
-        
-        
-    def addRowToTable(self):
-        rowPosition = self.cur_report_display_table.rowCount()
-        self.cur_report_display_table.insertRow(rowPosition)
 
-        item = QtWidgets.QTableWidgetItem()
-        item.setText("Elro") 
-        self.cur_report_display_table.setVerticalHeaderItem(rowPosition, item)
-        
-        label = QLabel("Elro2")
-        self.cur_report_display_table.setCellWidget(rowPosition, 0, label)
-        
 
 
 if __name__ == "__main__":
+    listHeaders = ["H1","H2","H3","H4"]
+    listValues = ["V1", "V2", "V3", "V4"]
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
+    ui = Ui_FullReportWindow()
+    ui.setupUi(MainWindow, listHeaders, listValues)
     MainWindow.show()
     sys.exit(app.exec_())
 

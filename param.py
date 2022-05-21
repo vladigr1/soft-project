@@ -18,3 +18,11 @@ parms = {
     'physical activity': Parameter('physical activity', 'integer'),
     'time socilizing': Parameter('time socilizing', 'integer'),
 }
+
+lparms = [
+    Parameter('cognative load', 'interval'),
+    Parameter('amount of sleep', 'double'),
+    Parameter('water consumption', 'double'),
+    Parameter('physical activity', 'integer'),
+    Parameter('time socilizing', 'integer'),
+]

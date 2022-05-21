@@ -11,8 +11,11 @@ from PyQt5.QtWidgets import QMainWindow,QInputDialog, QLineEdit, QDialog, QLabel
 
 import sys
 import numpy as np
+import csv
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+from ReportsScreenResearcher import Ui_FullReportWindow
 
 
 
@@ -22,6 +25,16 @@ class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(477, 476)
+        
+        
+        
+        self.congetive_report_comboBox = QComboBox()
+        self.amount_of_sleep_report_comboBox = QComboBox()
+        self.water_consumption_report_comboBox = QComboBox()
+        self.physical_activity_report_comboBox = QComboBox()
+        self.time_socializing_report_comboBox = QComboBox()
+        
+        
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.centralwidget.setObjectName("centralwidget")
@@ -75,7 +88,7 @@ class Ui_MainWindow(QMainWindow):
         
       
         self.verticalLayout_2.addWidget(self.cur_filter_setting_table)
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget, clicked = self.updateConfigurations)
         self.pushButton.setObjectName("pushButton")
         self.verticalLayout_2.addWidget(self.pushButton)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -92,7 +105,7 @@ class Ui_MainWindow(QMainWindow):
         self.choose_report_comboBox.setObjectName("choose_report_comboBox")
         self.choose_report_comboBox.addItem("")
         self.horizontalLayout_2.addWidget(self.choose_report_comboBox)
-        self.show_full_report_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.show_full_report_btn = QtWidgets.QPushButton(self.centralwidget, clicked = self.showFullReport)
         self.show_full_report_btn.setObjectName("show_full_report_btn")
         self.horizontalLayout_2.addWidget(self.show_full_report_btn)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
@@ -120,16 +133,44 @@ class Ui_MainWindow(QMainWindow):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        
+        
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        
+
+        
 
     def retranslateUi(self, MainWindow):
+        
+        file = open('Data/Config/Configurations.csv')
+        csvreader = csv.reader(file)
+        comboIndexesConfig = []
+        comboIndexesConfig = next(csvreader)
+        file.close()
+        index = 0
+        
+        
+        
+        
+        
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Researcher screen:"))
         self.label_2.setText(_translate("MainWindow", "algorithm"))
         self.choose_alg_comboBox.setItemText(0, _translate("MainWindow", "least squares + spearman correlation"))
+        self.choose_alg_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
+        
+        
+        self.choose_report_comboBox.setItemText(0, _translate("MainWindow", "sleep analysis 1"))
+        self.choose_report_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
+        
+        self.choose_model_comboBox.setItemText(0, _translate("MainWindow", "sleep analysis"))
+        self.choose_model_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
         
         
         item = self.cur_filter_setting_table.verticalHeaderItem(0)
@@ -149,40 +190,96 @@ class Ui_MainWindow(QMainWindow):
         
         
         
-        cb = QComboBox()
-        cb.addItems(["Option 1","Option 2","Option 3"])
-        self.cur_filter_setting_table.setCellWidget(0, 0, cb)
-        cb = QComboBox()
-        cb.addItems(["Option A","Option B","Option C"])
-        self.cur_filter_setting_table.setCellWidget(1, 0, cb)
-        cb = QComboBox()
-        cb.addItems(["Option E","Option F","Option G"])
-        self.cur_filter_setting_table.setCellWidget(2, 0, cb)
-        cb = QComboBox()
-        cb.addItems(["Option H","Option I","Option J"])
-        self.cur_filter_setting_table.setCellWidget(3, 0, cb)
-        cb = QComboBox()
-        cb.addItems(["Option K","Option L","Option M"])
-        self.cur_filter_setting_table.setCellWidget(4, 0, cb)
+        self.congetive_report_comboBox.addItems(["Option 1","Option 2","Option 3"])
+        self.cur_filter_setting_table.setCellWidget(0, 0, self.congetive_report_comboBox)
+        self.congetive_report_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
+        
+
+        self.amount_of_sleep_report_comboBox.addItems(["Option A","Option B","Option C"])
+        self.cur_filter_setting_table.setCellWidget(1, 0, self.amount_of_sleep_report_comboBox)
+        self.amount_of_sleep_report_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
+        
+
+        self.water_consumption_report_comboBox.addItems(["Option E","Option F","Option G"])
+        self.cur_filter_setting_table.setCellWidget(2, 0, self.water_consumption_report_comboBox)
+        self.water_consumption_report_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
+        
+        
+        self.physical_activity_report_comboBox.addItems(["Option H","Option I","Option J"])
+        self.cur_filter_setting_table.setCellWidget(3, 0, self.physical_activity_report_comboBox)
+        self.physical_activity_report_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
+        
+
+        self.time_socializing_report_comboBox.addItems(["Option K","Option L","Option M"])
+        self.cur_filter_setting_table.setCellWidget(4, 0, self.time_socializing_report_comboBox)
+        self.time_socializing_report_comboBox.setCurrentIndex(int(comboIndexesConfig[index]))
+        index = index + 1
+        
 
         
 
         self.cur_filter_setting_table.setSortingEnabled(__sortingEnabled)
         self.pushButton.setText(_translate("MainWindow", "update system configuration"))
         self.label_3.setText(_translate("MainWindow", "choose report:"))
-        self.choose_report_comboBox.setItemText(0, _translate("MainWindow", "sleep analysis 1"))
+        
         self.show_full_report_btn.setText(_translate("MainWindow", "show full report"))
         self.label_4.setText(_translate("MainWindow", "choose model:"))
-        self.choose_model_comboBox.setItemText(0, _translate("MainWindow", "sleep analysis"))
+        
         self.show_ev_graph_btn.setText(_translate("MainWindow", "show evaluate graph"))
         
         
     def showEnvGraph(self):
-        pop = Popup(self)
+        pop = GraphPopup(self)
         pop.show()
         
+    def showFullReport(self):
+        pop = FullReportPopup(self, self.choose_report_comboBox.currentText())
+        pop.show()
+        
+    def updateConfigurations(self):
+        # open the file in the write mode
+        f = open('Data/Config/Configurations.csv', 'w')
+        
+        # create the csv writer
+        writer = csv.writer(f)
+        
+        data=[]
+        data.append(self.choose_alg_comboBox.currentIndex())
+        data.append(self.choose_report_comboBox.currentIndex())
+        data.append(self.choose_model_comboBox.currentIndex())
+        
+        data.append(self.congetive_report_comboBox.currentIndex())
+        data.append(self.amount_of_sleep_report_comboBox.currentIndex())
+        data.append(self.water_consumption_report_comboBox.currentIndex())
+        data.append(self.physical_activity_report_comboBox.currentIndex())
+        data.append(self.time_socializing_report_comboBox.currentIndex())
+        
+        # write a row to the csv file
+        writer.writerow(data)
 
-class Popup(QDialog):
+        
+        # close the file
+        f.close()
+        
+        pop = MessagePopUp(self, "Configuration Saved!")
+        pop.show()
+        
+        
+
+        
+class MessagePopUp(QDialog):
+   def __init__(self, parent, msg):
+       super().__init__(parent)
+       self.resize(100,100)
+       self.Label = QLabel(msg, self)
+       
+       
+       
+class GraphPopup(QDialog):
    def __init__(self, parent):
        super().__init__(parent)
        self.resize(600,300)
@@ -190,7 +287,23 @@ class Popup(QDialog):
        self.chart.resize(550, 250)
        
        
-       
+class FullReportPopup(QDialog):
+    def __init__(self, parent, selectedCSVFileName):
+       super().__init__(parent)
+       self.resize(600,300)
+       csvPath = "Data/Report/" +selectedCSVFileName + ".csv"
+       csvFile = open(csvPath)
+       csvreader = csv.reader(csvFile)
+       listHeaders = []
+       listValues = []
+       for row in csvreader:
+           listHeaders.append(row[0])
+           listValues.append(row[1])
+       ui = Ui_FullReportWindow()
+       ui.setupUi(self, listHeaders, listValues)
+       ui.show()
+
+ 
 class Graph(FigureCanvas):
     def __init__(self, parent):
         fig, self.ax = plt.subplots(figsize=(5, 4), dpi=200)

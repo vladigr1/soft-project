@@ -9,12 +9,30 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from data_model import DataModel
 from param import parms
+import pandas as pd
+import numpy as np
 
 class Ui_MainWindow(object):
     dm_path = "./Data/DataModel/" 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(477, 476)
+
+
+        self.congetive_report_comboBox = QtWidgets.QComboBox()
+        self.amount_of_sleep_report_comboBox = QtWidgets.QComboBox()
+        self.water_consumption_report_comboBox = QtWidgets.QComboBox()
+        self.physical_activity_report_comboBox = QtWidgets.QComboBox()
+        self.time_socializing_report_comboBox = QtWidgets.QComboBox()
+        self.lcomboBox = [
+            self.congetive_report_comboBox,
+            self.amount_of_sleep_report_comboBox,
+            self.water_consumption_report_comboBox, 
+            self.physical_activity_report_comboBox, 
+            self.time_socializing_report_comboBox
+        ]
+
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.centralwidget.setObjectName("centralwidget")
@@ -87,17 +105,17 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.choose_parmeter_table.setItem(0, 0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setItem(0, 1, item)
-        item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setItem(0, 1, item)
+        # item = QtWidgets.QTableWidgetItem()
         self.choose_parmeter_table.setItem(1, 0, item)
         item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setItem(1, 1, item)
-        item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setItem(1, 1, item)
+        # item = QtWidgets.QTableWidgetItem()
         self.choose_parmeter_table.setItem(2, 0, item)
         item = QtWidgets.QTableWidgetItem()
         self.choose_parmeter_table.setItem(3, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setItem(3, 1, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setItem(3, 1, item)
         self.verticalLayout_2.addWidget(self.choose_parmeter_table)
         self.save_model_btn = QtWidgets.QPushButton(self.centralwidget, clicked = self.save_mode_to_json)
         self.save_model_btn.setObjectName("save_model_btn")
@@ -117,7 +135,7 @@ class Ui_MainWindow(object):
         # Set choose_model_to_form_comboBox with Data models
         self.choose_model_to_form_comboBox.addItems(DataModel.lDataModels_names())
         self.horizontalLayout_3.addWidget(self.choose_model_to_form_comboBox)
-        self.generate_form_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.generate_form_btn = QtWidgets.QPushButton(self.centralwidget, clicked= self.generate_form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -156,20 +174,43 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "status"))
         __sortingEnabled = self.choose_parmeter_table.isSortingEnabled()
         self.choose_parmeter_table.setSortingEnabled(False)
+
+
+        # Set table
+        self.loptions = [" ","Basic","Derived"]
+        self.congetive_report_comboBox.addItems(self.loptions)
+        self.choose_parmeter_table.setCellWidget(0, 1, self.congetive_report_comboBox)
+        
+
+        self.amount_of_sleep_report_comboBox.addItems(self.loptions)
+        self.choose_parmeter_table.setCellWidget(1, 1, self.amount_of_sleep_report_comboBox)
+        
+
+        self.water_consumption_report_comboBox.addItems(self.loptions)
+        self.choose_parmeter_table.setCellWidget(2, 1, self.water_consumption_report_comboBox)
+        
+        
+        self.physical_activity_report_comboBox.addItems(self.loptions)
+        self.choose_parmeter_table.setCellWidget(3, 1, self.physical_activity_report_comboBox)
+        
+
+        self.time_socializing_report_comboBox.addItems(self.loptions)
+        self.choose_parmeter_table.setCellWidget(4, 1, self.time_socializing_report_comboBox)
+        
         item = self.choose_parmeter_table.item(0, 0)
-        item.setText(_translate("MainWindow", "interval"))
-        item = self.choose_parmeter_table.item(0, 1)
-        item.setText(_translate("MainWindow", "basic"))
+        item.setText(_translate("MainWindow", "[-5,5]"))
+        # item = self.choose_parmeter_table.item(0, 1)
+        # item.setText(_translate("MainWindow", "basic"))
         item = self.choose_parmeter_table.item(1, 0)
         item.setText(_translate("MainWindow", "double"))
-        item = self.choose_parmeter_table.item(1, 1)
-        item.setText(_translate("MainWindow", "derived"))
+        # item = self.choose_parmeter_table.item(1, 1)
+        # item.setText(_translate("MainWindow", "derived"))
         item = self.choose_parmeter_table.item(2, 0)
         item.setText(_translate("MainWindow", "double"))
         item = self.choose_parmeter_table.item(3, 0)
         item.setText(_translate("MainWindow", "integer"))
-        item = self.choose_parmeter_table.item(3, 1)
-        item.setText(_translate("MainWindow", "basic"))
+        # item = self.choose_parmeter_table.item(3, 1)
+        # item.setText(_translate("MainWindow", "basic"))
         self.choose_parmeter_table.setSortingEnabled(__sortingEnabled)
         self.save_model_btn.setText(_translate("MainWindow", "save model"))
         self.label_4.setText(_translate("MainWindow", "model name"))
@@ -181,16 +222,37 @@ class Ui_MainWindow(object):
         lbasic = []
         # TODO: exception handling like single basic
         for i in range(self.choose_parmeter_table.rowCount()):
-            if self.choose_parmeter_table.item(i, 1) is not None:
-                if self.choose_parmeter_table.item(i, 1).text() == 'basic':
+            if str(self.lcomboBox[i].currentText()) !=' ':
+                if str(self.lcomboBox[i].currentText()) == self.loptions[1]: # 'Basic'
                     lbasic.append(parms[self.choose_parmeter_table.verticalHeaderItem(i).text()])
-                if self.choose_parmeter_table.item(i, 1).text() == 'derived':
+                if str(self.lcomboBox[i].currentText()) == self.loptions[2]: # 'Derived'
                     derived = parms[self.choose_parmeter_table.verticalHeaderItem(i).text()]
 
                 
         dm = DataModel(self.model_name_lineEdit.text(), derived, lbasic,14)
         # TODO: implment taking from UI the dm
         dm.save_to_json()
+        self.choose_model_to_form_comboBox.addItem(self.model_name_lineEdit.text())
+
+    def generate_form(self):
+        model_name = str(self.choose_model_to_form_comboBox.currentText())
+        try:
+            num_of_days = int(self.num_of_days_lineEdit.text())
+        except Exception:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle('Error')
+            msg.setText('Input can only be a number')
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.exec_()
+        data_model = DataModel.model_name_to_data_model(model_name)
+        num_params = len(data_model.basic_parameeters()) + 1
+
+        df = data_model.to_DataFrame()
+        data = num_of_days*[num_params*pd.Series(*[np.nan], index=df.columns )]
+        mod_df  = df.append(data, ignore_index=True)
+        # TODO: Popup windows for form
+        mod_df.to_csv('./test.csv')
+        
 
 
 if __name__ == "__main__":
@@ -201,4 +263,3 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-

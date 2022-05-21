@@ -3,15 +3,11 @@
         {
             "_title": "cognative load",
             "_unit": "interval"
-        },
-        {
-            "_title": "physical activity",
-            "_unit": "integer"
         }
     ],
     "_derivied_parameter": {
-        "_title": "amount of sleep",
-        "_unit": "double"
+        "_title": "physical activity",
+        "_unit": "integer"
     },
     "_id": "sleep analysis 3",
     "_num_days": 14

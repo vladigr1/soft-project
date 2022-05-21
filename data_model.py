@@ -3,6 +3,8 @@ from types import SimpleNamespace
 from param import Parameter
 from os import listdir
 from os.path import isfile, join, basename
+import numpy as np
+import pandas as pd
 
 class DataModel:
     def __init__(self,name : str, derivied_parameter : Parameter, basic_parameeters : list, num_days : int) -> None:
@@ -10,6 +12,16 @@ class DataModel:
         self._basic_parameeters = basic_parameeters
         self._num_days = num_days
         self._id  = name
+
+    # setter and getter
+    def derivied_parameter(self, t = None):
+        if t != None:
+            self._derivied_parameter = t
+        return self._derivied_parameter  
+    def basic_parameeters(self, t = None):
+        if t != None:
+            self._basic_parameeters = t
+        return self._basic_parameeters
         
     def set_id(self):
         self._id  = self._derivied_parameter.title()[0:2]
@@ -18,10 +30,24 @@ class DataModel:
         self._id  += str(self._num_days)
     
     def save_to_json(self, path = "./Data/DataModel/"):
-        data_model_as_json =  json.dumps(self, default=lambda o: o.__dict__, 
+        data_model_as_json =  json.dumps(self, default=lambda o: o.__dict__,
         sort_keys=True, indent=4)
         with open(path + str(self._id) + '.json', 'w' ) as file:
             file.write(data_model_as_json)
+
+    def create_form(self, num_of_days, path='.'):
+        num_params = len(self._basic_parameeters) + 1
+        data = np.array(num_params*num_of_days*[np.nan])
+        data = data.reshape((num_of_days,num_params))
+        df = pd.DataFrame(data=data, columns= [param.title() for param in self._basic_parameeters] + [self._derivied_parameter.title()])
+        df.to_csv(path + self._id())
+
+    def to_DataFrame(self):
+        return pd.DataFrame(columns=[self._derivied_parameter.title()]+[param.title() for param in self._basic_parameeters])
+
+
+    def model_name_to_data_model(model_name : str):
+        return DataModel.json_file_to_data_model("./Data/DataModel/" + model_name + '.json')
 
     def json_file_to_data_model(path : str):
         # Parse JSON into an object with attributes corresponding to dict keys.
@@ -36,5 +62,5 @@ class DataModel:
             return res
 
     def lDataModels_names(path = "./Data/DataModel/"):
-        return [f for f in listdir(path) if isfile(join(path, f))]
+        return [f.split('.')[0] for f in listdir(path) if isfile(join(path, f))]
 
