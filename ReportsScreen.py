@@ -8,6 +8,12 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from data_model import DataModel
+from report import Report
+
+import pandas as pd
+import numpy as np
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -53,7 +59,7 @@ class Ui_MainWindow(object):
         self.all_report_comboBox.setObjectName("all_report_comboBox")
         self.all_report_comboBox.addItem("")
         self.horizontalLayout_2.addWidget(self.all_report_comboBox)
-        self.show_report_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.show_report_btn = QtWidgets.QPushButton(self.centralwidget, clicked=self.generate_report)
         self.show_report_btn.setObjectName("show_report_btn")
         self.horizontalLayout_2.addWidget(self.show_report_btn)
         self.verticalLayout_2.addLayout(self.horizontalLayout_2)
@@ -133,7 +139,38 @@ class Ui_MainWindow(object):
         self.CreateDataModelScreen_ui = CreateDataModelScreen.Ui_MainWindow()
         self.CreateDataModelScreen_ui.setupUi(self.CreateDataModelScreen_window)
         self.CreateDataModelScreen_window.show()
+
+    # TODO: popup to import form then move generate report to the popup windows
+    def generate_report(self):
+        path = './filled_form.csv'
+        report = Report(path)
+
+        # reset table
+        self.cur_report_display_table.setRowCount(0)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.cur_report_display_table.sizePolicy().hasHeightForWidth())
+        self.cur_report_display_table.setSizePolicy(sizePolicy)
+        self.cur_report_display_table.setLineWidth(1)
+        self.cur_report_display_table.setObjectName("cur_report_display_table")
+        self.cur_report_display_table.setColumnCount(1)
+        self.cur_report_display_table.setHorizontalHeaderLabels(["Values:"])
+
+       
+        for i in range(report._num_basic_param): 
+            rowPosition = self.cur_report_display_table.rowCount()
+            self.cur_report_display_table.insertRow(rowPosition)
+    
+            item = QtWidgets.QTableWidgetItem()
+            item.setText(report._listHeaders[i]) 
+            self.cur_report_display_table.setVerticalHeaderItem(rowPosition, item)
             
+            label = QtWidgets.QLabel(np.format_float_scientific(np.exp(report._listValues[i]), 4))
+            self.cur_report_display_table.setCellWidget(rowPosition, 0, label)
+
+    
+
 
 
 

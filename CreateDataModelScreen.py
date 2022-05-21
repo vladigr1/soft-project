@@ -248,7 +248,9 @@ class Ui_MainWindow(object):
         num_params = len(data_model.basic_parameeters()) + 1
 
         df = data_model.to_DataFrame()
-        data = num_of_days*[num_params*pd.Series(*[np.nan], index=df.columns )]
+        luints = [data_model.derivied_parameter().unit()] + [parm.unit() for parm in data_model.basic_parameeters()]
+        data = [pd.Series(luints, index=df.columns )]
+        data += num_of_days*[pd.Series(num_params*[np.nan], index=df.columns )]
         mod_df  = df.append(data, ignore_index=True)
         # TODO: Popup windows for form
         mod_df.to_csv('./test.csv')

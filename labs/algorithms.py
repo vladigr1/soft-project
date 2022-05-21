@@ -34,6 +34,16 @@ def categories_derived(pd_derivied):
     cat_type = CategoricalDtype(categories=[1, 2, 3, 4, 5], ordered=True)
     return pd_derivied.astype(cat_type)
 
+def load_form(csv_path):
+    #clean csv of form
+    data_diam = pd.read_csv(csv_path, dtype =  np.double)
+    data_diam = data_diam.drop([0])
+    data_diam = data_diam.drop(data_diam.columns[[0]], axis=1)
+    data_diam = pd.DataFrame(data_diam.values, columns=data_diam.columns)
+
+    cat_derivied = categories_derived(data_diam.iloc[:,0])
+    data_diam.iloc[:,0] = cat_derivied
+    return data_diam
 
 def load_data(csv_path, sderived):
     data_diam = pd.read_csv(csv_path, dtype =  np.double)
@@ -84,7 +94,7 @@ def generateOLR(data, sderived, lbasics):
     return mod_prob.fit(method='bfgs' ,disp = False) # Don't print report
 
 
-def stepwise_regression(data, sderived, lbasics, in_threshold, out_threshold):
+def stepwise_regression(data, sderived, lbasics, in_threshold = 0.15, out_threshold = 0.05):
     param_in_model = []
     param_not_in_model = copy(lbasics)
 

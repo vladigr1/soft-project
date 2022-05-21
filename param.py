@@ -8,6 +8,11 @@ class Parameter:
         if t != None:
             self._title = t
         return self._title
+
+    def unit(self, t = None):
+        if t != None:
+            self._unit = t
+        return self._unit
 # TODO: implement filter
 
 

@@ -1,0 +1,14 @@
+{
+    "_basic_parameeters": [
+        {
+            "_title": "cognative load",
+            "_unit": "interval"
+        }
+    ],
+    "_derivied_parameter": {
+        "_title": "physical activity",
+        "_unit": "integer"
+    },
+    "_id": "asd",
+    "_num_days": 14
+}
