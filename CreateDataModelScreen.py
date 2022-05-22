@@ -11,6 +11,7 @@ from data_model import DataModel
 from param import parms
 import pandas as pd
 import numpy as np
+from widgets import SaveFileExplorerWidget
 
 class Ui_MainWindow(object):
     dm_path = "./Data/DataModel/" 
@@ -117,7 +118,7 @@ class Ui_MainWindow(object):
         # item = QtWidgets.QTableWidgetItem()
         # self.choose_parmeter_table.setItem(3, 1, item)
         self.verticalLayout_2.addWidget(self.choose_parmeter_table)
-        self.save_model_btn = QtWidgets.QPushButton(self.centralwidget, clicked = self.save_mode_to_json)
+        self.save_model_btn = QtWidgets.QPushButton(self.centralwidget, clicked = self.save_mode_to_file)
         self.save_model_btn.setObjectName("save_model_btn")
         self.verticalLayout_2.addWidget(self.save_model_btn)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -132,7 +133,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.label_4)
         self.choose_model_to_form_comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.choose_model_to_form_comboBox.setObjectName("choose_model_to_form_comboBox")
-        # Set choose_model_to_form_comboBox with Data models
+# Set choose_model_to_form_comboBox with Data models
         self.choose_model_to_form_comboBox.addItems(DataModel.lDataModels_names())
         self.horizontalLayout_3.addWidget(self.choose_model_to_form_comboBox)
         self.generate_form_btn = QtWidgets.QPushButton(self.centralwidget, clicked= self.generate_form)
@@ -218,9 +219,9 @@ class Ui_MainWindow(object):
         self.generate_form_btn.setText(_translate("MainWindow", "generate form"))
 
 # devloper define stuff
-    def save_mode_to_json(self):
+    def save_mode_to_file(self):
         lbasic = []
-        # TODO: exception handling like single basic
+        # TODO: exception handling like single basic, days aren't divided by filter_size
         for i in range(self.choose_parmeter_table.rowCount()):
             if str(self.lcomboBox[i].currentText()) !=' ':
                 if str(self.lcomboBox[i].currentText()) == self.loptions[1]: # 'Basic'
@@ -230,8 +231,9 @@ class Ui_MainWindow(object):
 
                 
         dm = DataModel(self.model_name_lineEdit.text(), derived, lbasic,14)
-        # TODO: implment taking from UI the dm
-        dm.save_to_json()
+        
+        # implment get from UI the dm
+        dm.save_to_file()
         self.choose_model_to_form_comboBox.addItem(self.model_name_lineEdit.text())
 
     def generate_form(self):
@@ -252,8 +254,13 @@ class Ui_MainWindow(object):
         data = [pd.Series(luints, index=df.columns )]
         data += num_of_days*[pd.Series(num_params*[np.nan], index=df.columns )]
         mod_df  = df.append(data, ignore_index=True)
-        # TODO: Popup windows for form
-        mod_df.to_csv('./test.csv')
+
+        # Popup windows for form
+        dlg = SaveFileExplorerWidget()
+        if dlg.fileName != '':
+            mod_df.to_csv(dlg.fileName +'.csv')
+
+        
         
 
 

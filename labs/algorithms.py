@@ -10,11 +10,7 @@ np.seterr(divide='ignore', invalid='ignore')
 
 from data_manipulation import filter
 
-
-
-def categories_derived(pd_derivied):
-    # generate shalow copy to not destory values
-    pd_derivied = copy(pd_derivied)
+def generate_boundary(pd_derivied):
     derived = list(set(pd_derivied.to_numpy()))
     if  len(derived) < 5 :
         raise Exception("can't category derived, not enough unique values.")
@@ -22,6 +18,11 @@ def categories_derived(pd_derivied):
     step = len(derived)//5 # 5 categories
 
     boundaries = np.array([derived[i] for i in range(step,4*step+1,step)])
+    return boundaries
+
+def categories_derived_with_boundaries(pd_derivied, boundaries):
+    # generate shalow copy to not destory values
+    pd_derivied = copy(pd_derivied)
     #print(f'boundaries: {boundaries}')
     for i,val in enumerate(pd_derivied):
         if boundaries[3] <= val:
@@ -33,6 +34,11 @@ def categories_derived(pd_derivied):
     
     cat_type = CategoricalDtype(categories=[1, 2, 3, 4, 5], ordered=True)
     return pd_derivied.astype(cat_type)
+
+
+def categories_derived(pd_derivied):
+    boundaries = generate_boundary(pd_derivied)
+    return categories_derived_with_boundaries(pd_derivied, boundaries)
 
 def load_form(csv_path):
     #clean csv of form
@@ -53,11 +59,17 @@ def load_data(csv_path, sderived):
 
 def load_data_with_fiters(csv_path, sderived, lfilters, filter_size):
     data_diam = pd.read_csv(csv_path, dtype =  np.double)
+    return filter_data(data_diam, sderived, lfilters, filter_size)
+
+def filter_data(data_diam, sderived, lfilters, filter_size):
     lparams = list(data_diam.columns.values)
     size_sample = data_diam.shape[0]
 
-    data = np.empty((size_sample//filter_size, len(lparams)), dtype=np.double)
+    data = np.empty((size_sample-filter_size+1, len(lparams)), dtype=np.double)
     for i, param in enumerate(lparams):
+        if lfilters[i] == None:
+                data[:,i] = data_diam.iloc[filter_size-1:,i]
+                continue
         data[:,i] = filter(data_diam[param].values, lfilters[i],filter_size)
     
     df = pd.DataFrame(data, columns=lparams)
