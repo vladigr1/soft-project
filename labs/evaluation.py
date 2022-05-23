@@ -35,6 +35,8 @@ def evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg):
             break
         try:
             (fit_model, param_in_model, cur_pvalue) = regression_alg(cur_data, sderived, lbasics)
+            if param_in_model == []:
+                raise Exception('lbasics is empty')
         except:
             continue
         ac = accuracy(distance_vec(cur_data, sderived, param_in_model, fit_model))

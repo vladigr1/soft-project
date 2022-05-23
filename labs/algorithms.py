@@ -172,3 +172,33 @@ def stepwise_regression(data, sderived, lbasics, in_threshold = 0.15, out_thresh
     if not param_in_model:
         raise Exception("Stepwise_reggresion couldn't pick a parameter.")
     return (cur_model, param_in_model, cur_pvalue)
+
+def best_subset(data, sderived, lbasics, cur_params=[], index=0):
+    if index == len(lbasics):
+        if cur_params == []:
+            return (None, [], 1)
+        fit_model = generateOLR(data, sderived, cur_params)
+        pvalue = ttest(fit_model, data, sderived, cur_params)
+        return (fit_model, cur_params, pvalue)
+    
+    (fit_model_with_i, cur_params_with_i, pvalue_with_i) = best_subset(data, sderived, lbasics,cur_params+[lbasics[index]], index+1)
+    (fit_model_without_i, cur_params_without_i, pvalue_without_i) = best_subset(data, sderived, lbasics,cur_params, index+1)
+    if pvalue_with_i < pvalue_without_i:
+        return (fit_model_with_i, cur_params_with_i, pvalue_with_i) 
+    else:
+        return (fit_model_without_i, cur_params_without_i, pvalue_without_i)
+
+def filter_lbasic_with_spearman(data, sderived, lbasics, pracentage_to_keep=0.2):
+    from scipy.stats import spearmanr
+    num_lparam = round(pracentage_to_keep * len(lbasics))
+
+    # data[parm])[1] - pvalue
+    cor_basic = [(parm, spearmanr(data[sderived], data[parm])[1]) for parm in lbasics]
+
+    cor_basic.sort(key = lambda x: x[1])
+    # param[0] - param str
+    return [param[0] for param in cor_basic[:num_lparam]]
+
+def best_subset_with_spearman(data, sderived, lbasics, pracentage_to_keep=0.2):
+    lparam_after_spearman = filter_lbasic_with_spearman(data, sderived, lbasics, pracentage_to_keep)
+    return best_subset(data, sderived, lparam_after_spearman)
