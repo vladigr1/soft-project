@@ -6,10 +6,11 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+from ast import Raise
 from posixpath import basename
 from PyQt5 import QtCore, QtGui, QtWidgets
 from data_model import DataModel
-from param import parms
+from param import parms,lparms
 import pandas as pd
 import numpy as np
 from widgets import SaveFileExplorerWidget
@@ -91,31 +92,31 @@ class Ui_MainWindow(object):
         self.choose_parmeter_table.setSizePolicy(sizePolicy)
         self.choose_parmeter_table.setObjectName("choose_parmeter_table")
         self.choose_parmeter_table.setColumnCount(2)
-        self.choose_parmeter_table.setRowCount(4)
-        item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setVerticalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setVerticalHeaderItem(1, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setVerticalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setVerticalHeaderItem(3, item)
+        self.choose_parmeter_table.setRowCount(len(lparms))
+        # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setVerticalHeaderItem(0, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setVerticalHeaderItem(1, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setVerticalHeaderItem(2, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setVerticalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.choose_parmeter_table.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
+        # item = QtWidgets.QTableWidgetItem()
         self.choose_parmeter_table.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setItem(0, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        # self.choose_parmeter_table.setItem(0, 1, item)
+        # self.choose_parmeter_table.setItem(0, 0, item)
         # item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setItem(1, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        # self.choose_parmeter_table.setItem(1, 1, item)
+        # # self.choose_parmeter_table.setItem(0, 1, item)
+        # # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setItem(1, 0, item)
         # item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setItem(2, 0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.choose_parmeter_table.setItem(3, 0, item)
+        # # self.choose_parmeter_table.setItem(1, 1, item)
+        # # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setItem(2, 0, item)
+        # item = QtWidgets.QTableWidgetItem()
+        # self.choose_parmeter_table.setItem(3, 0, item)
         # item = QtWidgets.QTableWidgetItem()
         # self.choose_parmeter_table.setItem(3, 1, item)
         self.verticalLayout_2.addWidget(self.choose_parmeter_table)
@@ -162,14 +163,31 @@ class Ui_MainWindow(object):
         self.model_name_lineEdit.setText(_translate("MainWindow", "sleep analysis 3"))
         self.label_3.setText(_translate("MainWindow", "number of days"))
         self.num_of_days_lineEdit.setText(_translate("MainWindow", "14"))
-        item = self.choose_parmeter_table.verticalHeaderItem(0)
-        item.setText(_translate("MainWindow", "cognitive load"))
-        item = self.choose_parmeter_table.verticalHeaderItem(1)
-        item.setText(_translate("MainWindow", "amount of sleep"))
-        item = self.choose_parmeter_table.verticalHeaderItem(2)
-        item.setText(_translate("MainWindow", "water consumption"))
-        item = self.choose_parmeter_table.verticalHeaderItem(3)
-        item.setText(_translate("MainWindow", "physical activity"))
+
+        for i in range(len(lparms)):
+            item = QtWidgets.QTableWidgetItem()
+            self.choose_parmeter_table.setVerticalHeaderItem(i, item)
+            item = QtWidgets.QTableWidgetItem()
+            self.choose_parmeter_table.setItem(i, 0, item)
+            item = self.choose_parmeter_table.verticalHeaderItem(i)
+            item.setText(_translate("MainWindow",lparms[i].title()))
+            item = self.choose_parmeter_table.item(i, 0)
+            item.setText(_translate("MainWindow", lparms[i].unit()))
+        # item = self.choose_parmeter_table.verticalHeaderItem(1)
+        # item.setText(_translate("MainWindow", "amount of sleep"))
+        # item = self.choose_parmeter_table.verticalHeaderItem(2)
+        # item.setText(_translate("MainWindow", "water consumption"))
+        # item = self.choose_parmeter_table.verticalHeaderItem(3)
+        # item.setText(_translate("MainWindow", "physical activity"))
+
+        
+        # item = self.choose_parmeter_table.item(1, 0)
+        # item.setText(_translate("MainWindow", "double"))
+        # item = self.choose_parmeter_table.item(2, 0)
+        # item.setText(_translate("MainWindow", "double"))
+        # item = self.choose_parmeter_table.item(3, 0)
+        # item.setText(_translate("MainWindow", "integer"))
+
         item = self.choose_parmeter_table.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "unit"))
         item = self.choose_parmeter_table.horizontalHeaderItem(1)
@@ -199,20 +217,6 @@ class Ui_MainWindow(object):
         self.time_socializing_report_comboBox.addItems(self.loptions)
         self.choose_parmeter_table.setCellWidget(4, 1, self.time_socializing_report_comboBox)
         
-        item = self.choose_parmeter_table.item(0, 0)
-        item.setText(_translate("MainWindow", "[-5,5]"))
-        # item = self.choose_parmeter_table.item(0, 1)
-        # item.setText(_translate("MainWindow", "basic"))
-        item = self.choose_parmeter_table.item(1, 0)
-        item.setText(_translate("MainWindow", "double"))
-        # item = self.choose_parmeter_table.item(1, 1)
-        # item.setText(_translate("MainWindow", "derived"))
-        item = self.choose_parmeter_table.item(2, 0)
-        item.setText(_translate("MainWindow", "double"))
-        item = self.choose_parmeter_table.item(3, 0)
-        item.setText(_translate("MainWindow", "integer"))
-        # item = self.choose_parmeter_table.item(3, 1)
-        # item.setText(_translate("MainWindow", "basic"))
         self.choose_parmeter_table.setSortingEnabled(__sortingEnabled)
         self.save_model_btn.setText(_translate("MainWindow", "save model"))
         self.label_4.setText(_translate("MainWindow", "model name"))
@@ -222,13 +226,25 @@ class Ui_MainWindow(object):
 # devloper define stuff
     def save_mode_to_file(self):
         lbasic = []
-        # TODO: exception handling like single basic, days aren't divided by filter_size
-        for i in range(self.choose_parmeter_table.rowCount()):
-            if str(self.lcomboBox[i].currentText()) !=' ':
-                if str(self.lcomboBox[i].currentText()) == self.loptions[1]: # 'Basic'
-                    lbasic.append(parms[self.choose_parmeter_table.verticalHeaderItem(i).text()])
-                if str(self.lcomboBox[i].currentText()) == self.loptions[2]: # 'Derived'
-                    derived = parms[self.choose_parmeter_table.verticalHeaderItem(i).text()]
+        derived = None
+        try:
+            for i in range(self.choose_parmeter_table.rowCount()):
+                if str(self.lcomboBox[i].currentText()) !=' ':
+                    if str(self.lcomboBox[i].currentText()) == self.loptions[1]: # 'Basic'
+                        lbasic.append(parms[self.choose_parmeter_table.verticalHeaderItem(i).text()])
+                    if str(self.lcomboBox[i].currentText()) == self.loptions[2]: # 'Derived'
+                        derived = parms[self.choose_parmeter_table.verticalHeaderItem(i).text()]
+            if derived is None :
+                raise Exception("Didn't pick derived parameter")
+            if lbasic == [] :
+                raise Exception("Didn't pick  basic parameters")
+        except Exception as e:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle('Error')
+            msg.setText(str(e))
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.exec_()
+            return
 
                 
         dm = DataModel(self.model_name_lineEdit.text(), derived, lbasic,14)

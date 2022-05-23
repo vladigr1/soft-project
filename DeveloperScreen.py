@@ -255,9 +255,15 @@ class Ui_MainWindow(QMainWindow):
 
         (x, y) = evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg[config.index_alg] )
         
-
-        pop = GraphPopup(self, x,y)
-        pop.show()
+        if x == []:
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle('Error')
+            msg.setText('Not enough reports for evaluation graph')
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            msg.exec_()
+        else:
+            pop = GraphPopup(self, x,y)
+            pop.show()
         
     def showFullReport(self):
         from ReportsScreenResearcher import Ui_FullReportWindow
@@ -285,17 +291,12 @@ class Ui_MainWindow(QMainWindow):
         config = Configuration(alg_index, data)
         config.save_to_file()
         
-        pop = MessagePopUp(self, "Configuration Saved!")
-        pop.show()
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle('Message')
+        msg.setText('Configuration saved')
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.exec_()
         
-        
-
-        
-class MessagePopUp(QDialog):
-   def __init__(self, parent, msg):
-       super().__init__(parent)
-       #self.resize(100,100)
-       self.Label = QLabel(msg, self)
        
        
        

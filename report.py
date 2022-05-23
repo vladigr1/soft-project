@@ -9,15 +9,16 @@ from os import listdir
 from os.path import isfile, join
 import pickle
 from functools import reduce
-from config import filter_size,Configuration, lfilter_lambdas, lfilter_name
+from config import filter_size,Configuration, lfilter_lambdas, lfilter_name, regression_alg
 from param import lparms
 
 report_folder = './Data/Report/'
 
 class Report:
     def __init__(self, form_path) -> None:
+        config = Configuration.load()
         mfilters = {
-            lparms[i].title(): lfilter_lambdas[Configuration.load().lindex_filters_for_parm[i]] 
+            lparms[i].title(): lfilter_lambdas[config.lindex_filters_for_parm[i]] 
          for i in range(len(lparms)) 
         }
         self.data_categroies = self._load_form_with_lfilters(form_path, mfilters)
@@ -26,8 +27,8 @@ class Report:
         lbasics = list(self.data_categroies.columns)
         lbasics.remove(sderived)
 
-        # TODO: algorithem base on config
-        (self.fit_model, self.param_in_model, self.cur_pvalue) = stepwise_regression(self.data_categroies, sderived, lbasics)
+        reg = regression_alg[config.index_alg]
+        (self.fit_model, self.param_in_model, self.cur_pvalue) = reg(self.data_categroies, sderived, lbasics)
         self.num_basic_param = len(self.param_in_model)
         self.generate_summary()
         

@@ -176,17 +176,11 @@ class Ui_MainWindow(object):
         report.save_to_file(basename(form_fn_path).split('.')[0])
         
 
-    # TODO: move in to data model folder
     def import_form(self):
         dlg = OpenFileExplorerWidget()
         if dlg.fileName != '':
             self.generate_report(dlg.fileName)
             self.all_report_comboBox.addItem(basename(dlg.fileName).split('.')[0])
-
-
-    
-
-
 
 
 if __name__ == "__main__":

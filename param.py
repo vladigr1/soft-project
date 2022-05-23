@@ -13,21 +13,20 @@ class Parameter:
         if t != None:
             self._unit = t
         return self._unit
-# TODO: implement filter
-
-
-parms = {
-    'cognitive load': Parameter('cognative load', 'interval'),
-    'amount of sleep': Parameter('amount of sleep', 'double'),
-    'water consumption': Parameter('water consumption', 'double'),
-    'physical activity': Parameter('physical activity', 'integer'),
-    'time socilizing': Parameter('time socilizing', 'integer'),
-}
+# implement filter in config
 
 lparms = [
-    Parameter('cognative load', 'interval'),
+    Parameter('cognitive load', '[-5, 5]'),
     Parameter('amount of sleep', 'double'),
     Parameter('water consumption', 'double'),
     Parameter('physical activity', 'integer'),
     Parameter('time socilizing', 'integer'),
 ]
+
+parms = {
+    'cognitive load': lparms[0],
+    'amount of sleep': lparms[1],
+    'water consumption': lparms[2],
+    'physical activity': lparms[3],
+    'time socilizing': lparms[4],
+}
