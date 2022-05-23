@@ -16,10 +16,16 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 from ReportsScreenResearcher import Ui_FullReportWindow
-from config import Configuration, lalg_name, lfilter_name
+from config import Configuration, lalg_name, lfilter_name, regression_alg
 
 from report import Report,FullReport
 from data_model import DataModel
+
+import pandas as pd
+
+import sys
+sys.path.insert(0, "./labs")
+from labs.evaluation import evaluation_graph
 
 
 
@@ -231,7 +237,26 @@ class Ui_MainWindow(QMainWindow):
         
         
     def showEnvGraph(self):
-        pop = GraphPopup(self)
+        config = Configuration.load()
+        data_model_name = str(self.choose_model_comboBox.currentText())
+        data_model = DataModel.load("./Data/DataModel/" + data_model_name)
+
+        ldata_categories = []
+        for report_name in data_model.lforms_names():
+            report = Report.load(report_name)
+            ldata_categories.append(report.data_categroies)
+        data = pd.concat(ldata_categories)
+
+        sderived = data.columns[0]
+        lbasics = list(data.columns.values)
+        lbasics.remove(sderived)
+
+        amount_of_days = data_model.num_days()
+
+        (x, y) = evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg[config.index_alg] )
+        
+
+        pop = GraphPopup(self, x,y)
         pop.show()
         
     def showFullReport(self):
@@ -269,37 +294,53 @@ class Ui_MainWindow(QMainWindow):
 class MessagePopUp(QDialog):
    def __init__(self, parent, msg):
        super().__init__(parent)
-       self.resize(100,100)
+       #self.resize(100,100)
        self.Label = QLabel(msg, self)
        
        
        
 class GraphPopup(QDialog):
-   def __init__(self, parent):
+   def __init__(self, parent,x,y):
        super().__init__(parent)
-       self.resize(600,300)
-       self.chart = Graph(self)
-       self.chart.resize(550, 250)
+       #self.resize(600,300)
+       self.chart = Graph(self,x,y)
+       #self.chart.resize(550, 250)
        
 
  
 class Graph(FigureCanvas):
-    def __init__(self, parent):
+    def __init__(self, parent,x,y):
         fig, self.ax = plt.subplots(figsize=(5, 4), dpi=200)
+        
+        N = len(x)
+        c = range(N)
+
+        #fig, ax = plt.subplots()
+
+        scatter = self.ax.scatter(x, y, c=c)
+        plt.xlabel("p-value")
+        plt.ylabel("accuracy")
+
+        # produce a legend with the unique colors from the scatter
+        legend1 = self.ax.legend(*scatter.legend_elements(),
+                        loc="upper right", title="Model number")
+        self.ax.add_artist(legend1)
+
         super().__init__(fig)
         self.setParent(parent)
+        # plt.show()
 
-        """ 
-        Matplotlib Script
-        """
-        t = np.arange(0.0, 2.0, 0.01)
-        s = 1 + np.sin(2 * np.pi * t)
+        # """ 
+        # Matplotlib Script
+        # """
+        # t = np.arange(0.0, 2.0, 0.01)
+        # s = 1 + np.sin(2 * np.pi * t)
         
-        self.ax.plot(t, s)
+        # self.ax.plot(t, s)
 
-        self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-               title='About as simple as it gets, folks')
-        self.ax.grid()
+        # self.ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+        #        title='About as simple as it gets, folks')
+        # self.ax.grid()
   
 
 

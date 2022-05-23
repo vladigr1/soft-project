@@ -4,6 +4,7 @@ import pickle
 import sys
 sys.path.insert(0, "./labs")
 import labs.data_manipulation as dm
+from labs.algorithms import stepwise_regression
 
 lfilter_name = ['', 'avg', 'max']
 filter_size = 2
@@ -12,6 +13,7 @@ lfilter_lambdas = [None, dm.avg_filter(filter_size), dm.max_filter(filter_size)]
 
 
 lalg_name = ['stepwise OLR']
+regression_alg = [stepwise_regression]
 
 config_path = './Data/Config/config'
 

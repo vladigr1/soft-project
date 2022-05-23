@@ -22,3 +22,25 @@ def distance_vec(data, sderived, lbasics, fit_model):
 
 def accuracy(distance_vec):
     return reduce(operator.add, distance_vec['dist'],0)
+
+
+def evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg):
+    amount_of_days = 15
+    size_data = len(data.index)
+    x = []
+    y = []
+    for i in range(size_data-amount_of_days+1):
+        cur_data = data.iloc[i:i+amount_of_days,:]
+        if len(x) == 7:
+            break
+        try:
+            (fit_model, param_in_model, cur_pvalue) = regression_alg(cur_data, sderived, lbasics)
+        except:
+            continue
+        ac = accuracy(distance_vec(cur_data, sderived, param_in_model, fit_model))
+        x.append(cur_pvalue)
+        y.append(ac)
+    return x,y
+
+
+    

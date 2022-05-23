@@ -6,6 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+from posixpath import basename
 from PyQt5 import QtCore, QtGui, QtWidgets
 from data_model import DataModel
 from param import parms
@@ -259,6 +260,7 @@ class Ui_MainWindow(object):
         dlg = SaveFileExplorerWidget()
         if dlg.fileName != '':
             mod_df.to_csv(dlg.fileName +'.csv')
+            data_model.appendForm(basename(dlg.fileName))
 
         
         

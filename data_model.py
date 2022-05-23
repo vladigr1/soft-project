@@ -13,6 +13,7 @@ class DataModel:
         self._basic_parameeters = basic_parameeters
         self._num_days = num_days
         self._id  = name
+        self._lforms_names = []
 
     # setter and getter
     def derivied_parameter(self, t = None):
@@ -23,6 +24,12 @@ class DataModel:
         if t != None:
             self._basic_parameeters = t
         return self._basic_parameeters
+    def num_days(self, t = None):
+        if t != None:
+            self._num_days = t
+        return self._num_days
+    def lforms_names(self):
+        return self._lforms_names
         
     def set_id(self):
         self._id  = self._derivied_parameter.title()[0:2]
@@ -44,6 +51,10 @@ class DataModel:
 
     def to_DataFrame(self):
         return pd.DataFrame(columns=[self._derivied_parameter.title()]+[param.title() for param in self._basic_parameeters])
+
+    def appendForm(self, form_name):
+        self._lforms_names.append(form_name)
+        self.save_to_file()
 
 
     def model_name_to_data_model(model_name : str):
