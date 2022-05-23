@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Create new data model:"))
         self.label_2.setText(_translate("MainWindow", "model name"))
-        self.model_name_lineEdit.setText(_translate("MainWindow", "sleep analysis 3"))
+        self.model_name_lineEdit.setText(_translate("MainWindow", "sleep analysis"))
         self.label_3.setText(_translate("MainWindow", "number of days"))
         self.num_of_days_lineEdit.setText(_translate("MainWindow", "14"))
 
