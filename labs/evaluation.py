@@ -25,7 +25,6 @@ def accuracy(distance_vec):
 
 
 def evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg):
-    amount_of_days = 15
     size_data = len(data.index)
     x = []
     y = []
@@ -39,7 +38,7 @@ def evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg):
                 raise Exception('lbasics is empty')
         except:
             continue
-        ac = accuracy(distance_vec(cur_data, sderived, param_in_model, fit_model))
+        ac = accuracy(distance_vec(data, sderived, param_in_model, fit_model))
         x.append(cur_pvalue)
         y.append(ac)
     return x,y

@@ -10,35 +10,35 @@ np.seterr(divide='ignore', invalid='ignore')
 
 from data_manipulation import filter
 
-def generate_boundary(pd_derivied):
+def generate_boundary(pd_derivied, num_categories = 5):
     derived = list(set(pd_derivied.to_numpy()))
-    if  len(derived) < 5 :
+    if  len(derived) < num_categories :
         raise Exception("can't category derived, not enough unique values.")
     derived.sort()
-    step = len(derived)//5 # 5 categories
+    step = len(derived)//num_categories
 
-    boundaries = np.array([derived[i] for i in range(step,4*step+1,step)])
+    boundaries = np.array([derived[i] for i in range(step,(num_categories-1)*step+1,step)])
     return boundaries
 
-def categories_derived_with_boundaries(pd_derivied, boundaries):
+def categories_derived_with_boundaries(pd_derivied, boundaries, num_categories = 5):
     # generate shalow copy to not destory values
     pd_derivied = copy(pd_derivied)
     #print(f'boundaries: {boundaries}')
     for i,val in enumerate(pd_derivied):
-        if boundaries[3] <= val:
-            pd_derivied[i] = 5
+        if boundaries[num_categories-2] <= val: # in num_cat = 5 bound = (2,3,4,5)
+            pd_derivied[i] = num_categories
             continue
         category = np.argmax(val < boundaries ) + 1
         #print(f'{val} {category}')
         pd_derivied[i] = category
     
-    cat_type = CategoricalDtype(categories=[1, 2, 3, 4, 5], ordered=True)
+    cat_type = CategoricalDtype(categories=[i for i in range(1,num_categories+1)], ordered=True)
     return pd_derivied.astype(cat_type)
 
 
-def categories_derived(pd_derivied):
-    boundaries = generate_boundary(pd_derivied)
-    return categories_derived_with_boundaries(pd_derivied, boundaries)
+def categories_derived(pd_derivied, num_categories = 5):
+    boundaries = generate_boundary(pd_derivied, num_categories)
+    return categories_derived_with_boundaries(pd_derivied, boundaries, num_categories)
 
 def load_form(csv_path):
     #clean csv of form
@@ -51,9 +51,9 @@ def load_form(csv_path):
     data_diam.iloc[:,0] = cat_derivied
     return data_diam
 
-def load_data(csv_path, sderived):
+def load_data(csv_path, sderived , num_categories = 5):
     data_diam = pd.read_csv(csv_path, dtype =  np.double)
-    cat_derivied = categories_derived(data_diam[sderived])
+    cat_derivied = categories_derived(data_diam[sderived], num_categories)
     data_diam[sderived] = cat_derivied
     return data_diam
 
@@ -106,7 +106,7 @@ def generateOLR(data, sderived, lbasics):
     return mod_prob.fit(method='bfgs' ,disp = False) # Don't print report
 
 
-def stepwise_regression(data, sderived, lbasics, in_threshold = 0.15, out_threshold = 0.05):
+def stepwise_regression(data, sderived, lbasics, in_threshold = 0.07, out_threshold = 0.07):
     param_in_model = []
     param_not_in_model = copy(lbasics)
 
