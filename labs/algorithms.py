@@ -26,13 +26,13 @@ def categories_derived_with_boundaries(pd_derivied, boundaries, num_categories =
     #print(f'boundaries: {boundaries}')
     for i,val in enumerate(pd_derivied):
         if boundaries[num_categories-2] <= val: # in num_cat = 5 bound = (2,3,4,5)
-            pd_derivied[i] = num_categories
+            pd_derivied[i] = num_categories - 1
             continue
-        category = np.argmax(val < boundaries ) + 1
+        category = np.argmax(val < boundaries )
         #print(f'{val} {category}')
         pd_derivied[i] = category
     
-    cat_type = CategoricalDtype(categories=[i for i in range(1,num_categories+1)], ordered=True)
+    cat_type = CategoricalDtype(categories=[i for i in range(0,num_categories)], ordered=True)
     return pd_derivied.astype(cat_type)
 
 
