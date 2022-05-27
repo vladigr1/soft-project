@@ -25,9 +25,5 @@ def test_DataModel_save_to_json():
     dm.save_to_file()
     assert(os.path.isfile(dm_path))
 
-    dm1 = DataModel.load(dm_path)
-    assert(dm1, 'DataModel')
-    assert(dm1, dm)
-
 
 
