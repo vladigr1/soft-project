@@ -188,7 +188,7 @@ def best_subset(data, sderived, lbasics, cur_params=[], index=0):
     else:
         return (fit_model_without_i, cur_params_without_i, pvalue_without_i)
 
-def filter_lbasic_with_spearman(data, sderived, lbasics, pracentage_to_keep=0.2):
+def filter_lbasic_with_spearman(data, sderived, lbasics, pracentage_to_keep=0.7):
     from scipy.stats import spearmanr
     num_lparam = round(pracentage_to_keep * len(lbasics))
 
@@ -199,6 +199,6 @@ def filter_lbasic_with_spearman(data, sderived, lbasics, pracentage_to_keep=0.2)
     # param[0] - param str
     return [param[0] for param in cor_basic[:num_lparam]]
 
-def best_subset_with_spearman(data, sderived, lbasics, pracentage_to_keep=0.2):
+def best_subset_with_spearman(data, sderived, lbasics, pracentage_to_keep=0.7):
     lparam_after_spearman = filter_lbasic_with_spearman(data, sderived, lbasics, pracentage_to_keep)
     return best_subset(data, sderived, lparam_after_spearman)

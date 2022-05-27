@@ -179,8 +179,15 @@ class Ui_MainWindow(object):
     def import_form(self):
         dlg = OpenFileExplorerWidget()
         if dlg.fileName != '':
-            self.generate_report(dlg.fileName)
-            self.all_report_comboBox.addItem(basename(dlg.fileName).split('.')[0])
+            try:
+                self.generate_report(dlg.fileName)
+                self.all_report_comboBox.addItem(basename(dlg.fileName).split('.')[0])
+            except:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Message')
+                msg.setText('Failed to import form')
+                msg.setIcon(QtWidgets.QMessageBox.Warning)
+                msg.exec_()
 
 
 if __name__ == "__main__":
