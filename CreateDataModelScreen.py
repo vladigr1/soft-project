@@ -157,7 +157,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Doctor screen"))
         self.label.setText(_translate("MainWindow", "Create new data model:"))
         self.label_2.setText(_translate("MainWindow", "model name"))
         self.model_name_lineEdit.setText(_translate("MainWindow", "sleep analysis"))

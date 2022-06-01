@@ -75,7 +75,7 @@ class Ui_FullReportWindow(QMainWindow):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Full Report Window"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Researcher screen"))
         #self.cur_report_display_table.resizeColumnsToContents()
         self.label.setText(_translate("MainWindow", "Full Report screen:"))
 

@@ -164,7 +164,7 @@ class Ui_MainWindow(QMainWindow):
         
         
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Researcher screen"))
         self.label.setText(_translate("MainWindow", "Researcher screen:"))
         self.label_2.setText(_translate("MainWindow", "algorithm"))
         self.choose_alg_comboBox.addItems(lalg_name)
@@ -254,6 +254,7 @@ class Ui_MainWindow(QMainWindow):
         amount_of_days = data_model.num_days()
 
         (x, y) = evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg[config.index_alg] )
+        y = [i / amount_of_days for i in y]
         
         if x == []:
             msg = QtWidgets.QMessageBox()
@@ -263,6 +264,11 @@ class Ui_MainWindow(QMainWindow):
             msg.exec_()
         else:
             pop = GraphPopup(self, x,y)
+            pop.setWhatsThis( """
+            Evaluation graph, 2D plane of accuracy and p-value generated from t-test.
+            Each point in the graph is model generated in consecutive days.
+            This graph shows the effect of consecutive data and how the model changes based on different days.
+            """)
             pop.show()
         
     def showFullReport(self):
