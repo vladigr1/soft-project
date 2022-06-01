@@ -269,6 +269,7 @@ class Ui_MainWindow(QMainWindow):
             Each point in the graph is model generated in consecutive days.
             This graph shows the effect of consecutive data and how the model changes based on different days.
             """)
+            pop.setWindowTitle('Researcher screen')
             pop.show()
         
     def showFullReport(self):
