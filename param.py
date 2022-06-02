@@ -20,7 +20,7 @@ lparms = [
     Parameter('amount of sleep', 'double'),
     Parameter('water consumption', 'double'),
     Parameter('physical activity', 'integer'),
-    Parameter('time socilizing', 'integer'),
+    Parameter('time socializing', 'integer'),
 ]
 
 parms = {
