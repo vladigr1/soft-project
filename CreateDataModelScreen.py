@@ -251,7 +251,13 @@ class Ui_MainWindow(object):
         
         # implment get from UI the dm
         dm.save_to_file()
+
         self.choose_model_to_form_comboBox.addItem(self.model_name_lineEdit.text())
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle('Message')
+        msg.setText('Model saved')
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.exec_()
 
     def generate_form(self):
         model_name = str(self.choose_model_to_form_comboBox.currentText())
