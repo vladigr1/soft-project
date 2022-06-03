@@ -6,6 +6,9 @@ def avg_filter(filter_size):
 def max_filter(filter_size):
     return lambda ldata : np.max(ldata)
 
+def weighted_filter(weights : np.array):
+    return lambda ldata: np.dot(ldata,weights)
+
 def filter(data,func, filter_size):
     if len(data) < filter_size - 1:
         raise Exception("Not enough data")
