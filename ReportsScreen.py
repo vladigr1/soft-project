@@ -136,9 +136,10 @@ class Ui_MainWindow(object):
 
     def open_createDataModelScreen(self):
         import CreateDataModelScreen
-        self.CreateDataModelScreen_window = QtWidgets.QMainWindow()
-        self.CreateDataModelScreen_ui = CreateDataModelScreen.Ui_MainWindow()
-        self.CreateDataModelScreen_ui.setupUi(self.CreateDataModelScreen_window)
+        if self.CreateDataModelScreen_window is None:
+            self.CreateDataModelScreen_window = QtWidgets.QMainWindow()
+            self.CreateDataModelScreen_ui = CreateDataModelScreen.Ui_MainWindow()
+            self.CreateDataModelScreen_ui.setupUi(self.CreateDataModelScreen_window)
         self.CreateDataModelScreen_window.show()
     
     # TODO: add to show units ( odds based on that)
