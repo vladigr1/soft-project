@@ -21,7 +21,7 @@ def distance_vec(data, sderived, lbasics, fit_model):
     )
 
 def accuracy(distance_vec):
-    return reduce(operator.add, distance_vec['dist'],0)
+    return reduce(operator.add, distance_vec['dist'],0)/(distance_vec.shape[0])
 
 
 def evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg):
@@ -39,7 +39,7 @@ def evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg):
         except:
             continue
         size = data.shape[0]
-        ac = accuracy(distance_vec(data, sderived, param_in_model, fit_model))/size
+        ac = accuracy(distance_vec(data, sderived, param_in_model, fit_model))
         x.append(cur_pvalue)
         y.append(ac)
     return x,y
