@@ -38,7 +38,8 @@ def evaluation_graph(data, sderived, lbasics, amount_of_days, regression_alg):
                 raise Exception('lbasics is empty')
         except:
             continue
-        ac = accuracy(distance_vec(data, sderived, param_in_model, fit_model))
+        size = data.shape[0]
+        ac = accuracy(distance_vec(data, sderived, param_in_model, fit_model))/size
         x.append(cur_pvalue)
         y.append(ac)
     return x,y
