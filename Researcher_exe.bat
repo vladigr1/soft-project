@@ -1,1 +1,0 @@
-mypython\Scripts\python.exe DeveloperScreen.py
