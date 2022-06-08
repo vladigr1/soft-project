@@ -106,7 +106,7 @@ def generateOLR(data, sderived, lbasics):
     return mod_prob.fit(method='bfgs' ,disp = False) # Don't print report
 
 
-def stepwise_regression(data, sderived, lbasics, in_threshold = 0.07, out_threshold = 0.07):
+def stepwise_regression(data, sderived, lbasics, in_threshold = 0.5, out_threshold = 0.05):
     param_in_model = []
     param_not_in_model = copy(lbasics)
 
