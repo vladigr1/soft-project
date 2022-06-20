@@ -1,5 +1,5 @@
 # soft-project
-analysis connection between parameters
+Analysis connection between parameters
 ## Installation
 
 * Download Anaconda
